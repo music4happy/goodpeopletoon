@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>굿피플툰 · 착한이웃다움</title>
+<meta name="description" content="착한이웃교회 이야기를 쉽고 편안하게 풀어낸 웹툰">
+<meta property="og:title" content="굿피플툰 · 착한이웃다움">
+<meta property="og:description" content="이웃에게 할 수 있는 가장 착한 일은, 예수님을 전하는 것입니다">
+<meta property="og:image" content="https://music4happy.github.io/goodpeopletoon/ep01_cover.jpg">
+<meta property="og:url" content="https://music4happy.github.io/goodpeopletoon/">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#efe9dc;--paper:#faf6ee;--ink:#1f2a3a;--sub:#6b6457;--gold:#c08a2e;--green:#2f7d5b;--red:#d9534f;--amber:#e9a826;--line:#e3dccb}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:560px;margin:0 auto;background:var(--paper);min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.06)}
+.hide{display:none!important}
+/* signal dots (신호등) */
+.sig{display:inline-flex;gap:5px;vertical-align:middle}.sig i{width:9px;height:9px;border-radius:50%;display:block}
+.sig i:nth-child(1){background:var(--red)}.sig i:nth-child(2){background:var(--amber)}.sig i:nth-child(3){background:var(--green)}
+/* HOME */
+.hero{padding:56px 28px 36px;text-align:center;background:linear-gradient(180deg,#f7f1e4,#faf6ee)}
+.hero .eyebrow{font-size:12px;letter-spacing:.3em;color:var(--gold);font-weight:700;margin:14px 0 10px}
+.hero h1{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.hero p{margin:14px 0 24px;color:var(--sub);line-height:1.7;white-space:pre-line;font-size:15px}
+.hero .motto{font-size:13px;color:var(--green);font-weight:700;letter-spacing:.06em;margin-bottom:22px}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:14px 30px;border-radius:999px;font-weight:700;font-size:15px;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:10px 18px;font-size:13px}
+.progress-note{margin-top:12px;font-size:13px;color:var(--sub)}
+section{padding:30px 22px}
+section h2{font-size:20px;font-weight:800;margin-bottom:4px}
+section .desc{color:var(--sub);font-size:13px;margin-bottom:16px}
+.starter{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+.starter a{flex:0 0 150px;scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between}
+.starter a b{font-size:12px;color:var(--gold)}.starter a span{font-size:14px;font-weight:700;line-height:1.45}
+.starter a.lock{opacity:.55}
+.season{border:1px solid var(--line);border-radius:16px;margin-bottom:12px;background:#fff;overflow:hidden}
+.season summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.season summary::-webkit-details-marker{display:none}
+.season .sn{flex:0 0 auto;background:var(--ink);color:#fff;font-size:11px;font-weight:800;padding:5px 9px;border-radius:8px}
+.season .st{flex:1}.season .st b{display:block;font-size:15px}.season .st small{color:var(--sub);font-size:12px}
+.season .cnt{font-size:12px;color:var(--sub)}
+.eplist a,.eplist div{display:flex;align-items:center;gap:10px;padding:13px 18px;border-top:1px solid #f1ece0;font-size:14px}
+.eplist .no{flex:0 0 38px;font-weight:800;color:var(--gold);font-size:13px}
+.eplist .tt{flex:1;line-height:1.4}
+.eplist .go{font-size:12px;font-weight:700;color:var(--ink)}
+.eplist .soon{font-size:11px;color:#a59c8a}
+.eplist .done{color:var(--green);font-weight:800}
+.eplist div{color:#a59c8a}
+footer{padding:36px 22px 50px;text-align:center;color:var(--sub);font-size:12px;line-height:1.8;border-top:1px solid var(--line)}
+footer b{color:var(--ink);font-size:14px}
+/* EPISODE */
+.top{position:sticky;top:0;z-index:20;background:rgba(250,246,238,.94);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px}
+.top b{font-weight:800}.top button{background:none;border:0;font:inherit;cursor:pointer;color:var(--ink)}
+.bar{position:fixed;top:0;left:0;height:3px;background:var(--gold);z-index:30;width:0}
+.cover{position:relative;container-type:inline-size}
+.cover img{width:100%;display:block}
+.cover .ct{position:absolute;left:0;right:0;top:5%;text-align:center;padding:0 6%}
+.cover .ser{font-size:3.4cqw;letter-spacing:.35em;color:#8a5a12;font-weight:800;text-shadow:0 1px 8px rgba(255,255,255,.9)}
+.cover .pill{display:inline-block;margin:2.6cqw 0;background:var(--ink);color:#fff;font-weight:800;font-size:3.6cqw;padding:1.4cqw 4cqw;border-radius:999px}
+.cover h2{font-size:7.6cqw;line-height:1.25;font-weight:900;white-space:pre-line;color:var(--ink);text-shadow:0 2px 14px rgba(255,255,255,.95),0 0 3px #fff}
+.panel{position:relative;container-type:inline-size;line-height:0}
+.panel img{width:100%;display:block}
+.bub{position:absolute;line-height:1.35;background:#fff;border:2.5px solid var(--ink);border-radius:5cqw;padding:2.2cqw 3.2cqw;font-size:3.5cqw;font-weight:600;white-space:pre-line;max-width:50%;box-shadow:0 1.2cqw 0 rgba(31,42,58,.12);transform:rotate(var(--r,0deg))}
+.bub::after{content:'';position:absolute;bottom:-2.3cqw;left:var(--tx,50%);width:3.2cqw;height:3.2cqw;background:#fff;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
+.bub.shout{background:#fffbe8;font-weight:900;font-size:4.2cqw;border-radius:2cqw;border-width:3px}
+.bub.shout::after{background:#fffbe8}
+.bub.whisper{border-style:dashed;color:#4b5563;font-weight:500}
+.bub b{color:var(--green)}
+.cap{position:absolute;line-height:1.3;background:var(--ink);color:#fff;font-size:3.2cqw;font-weight:800;padding:1.4cqw 3cqw;border-radius:1.5cqw}
+.sfx{position:absolute;line-height:1;font-size:6.4cqw;font-weight:900;color:#fff;-webkit-text-stroke:1.4cqw var(--ink);paint-order:stroke fill;transform:rotate(var(--r,0deg));letter-spacing:.02em}
+.sfx.gold{color:#ffd35a}
+.narr{padding:64px 30px;text-align:center;font-size:19px;line-height:1.75;white-space:pre-line;position:relative}
+.narr::before{content:'';display:block;width:34px;height:2px;background:var(--gold);margin:0 auto 22px}
+.narr b{background:linear-gradient(transparent 60%,#f0d9a0 60%);font-weight:800}
+.talk{padding:34px 22px;display:flex;flex-direction:column;gap:12px;background:#f4efe3}
+.talk p{max-width:82%;background:#fff;border:2px solid var(--ink);border-radius:18px;padding:11px 15px;font-size:15px;line-height:1.5;font-weight:600}
+.talk p small{display:block;font-size:11px;color:var(--gold);font-weight:800;margin-bottom:2px}
+.talk p.r{align-self:flex-end;background:#eef6f0;border-color:var(--green)}
+.box{margin:0 18px 16px;padding:22px 20px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+.box h3{font-size:14px;font-weight:800;margin-bottom:10px}
+.box li{margin:0 0 8px 18px;line-height:1.6;font-size:15px}
+.box p{line-height:1.7;font-size:15px}
+.box p b{color:var(--green)}
+.closing{padding:56px 24px;text-align:center;font-size:22px;font-weight:800;line-height:1.6;white-space:pre-line}
+.closing em{font-style:normal;color:var(--green);background:linear-gradient(transparent 62%,#cfe8d9 62%)}
+.verse{margin:0 18px 16px;padding:22px;border-radius:16px;background:var(--ink);color:#f5efe2;text-align:center;line-height:1.7}
+.verse small{display:block;color:#d9b36a;margin-top:6px;font-size:12px;letter-spacing:.1em}
+.quiz .q{margin-bottom:16px}.quiz .q p{font-weight:700;margin-bottom:8px}
+.quiz button{display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:#faf8f3;font:inherit;font-size:14px;cursor:pointer}
+.quiz button.ok{border-color:var(--green);background:#e8f5ee;font-weight:700}
+.quiz button.no{border-color:var(--red);background:#fdecea}
+.quiz .score{font-weight:800;color:var(--green);text-align:center;margin-top:6px}
+.next{display:block;margin:26px 18px 10px;padding:22px;border-radius:18px;background:linear-gradient(135deg,#1f2a3a,#2f4a5e);color:#fff}
+.next small{font-size:11px;letter-spacing:.2em;color:#d9b36a;font-weight:800}
+.next b{display:block;font-size:18px;margin:6px 0}
+.next span{font-size:14px;opacity:.85}
+.next.soon{background:#d9d2c2;color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;transition:.3s;z-index:50}
+.toast.on{opacity:1}
+.ai-note{font-size:11px;color:#a59c8a;text-align:center;padding:6px 20px 0}
+/* quick menu */
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:26px 0 0}
+.quick a{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 4px 10px;font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px}
+.quick a span{font-size:20px;line-height:1}
+/* info sections */
+.info{scroll-margin-top:10px}
+.info.alt{background:#f4efe3}
+.wlist{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.wrow{display:flex;gap:12px;padding:14px 16px;border-top:1px solid #f1ece0;align-items:flex-start}
+.wrow:first-child{border-top:0}
+.wrow .wn{flex:1}.wrow .wn b{display:block;font-size:15px}.wrow .wn small{color:var(--sub);font-size:12px}
+.wrow .wt{font-size:13px;font-weight:700;color:var(--green);text-align:right;white-space:nowrap}
+.wrow.main{background:linear-gradient(90deg,#eef6f0,#fff)}
+.wrow.main .wn b::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px;vertical-align:middle}
+.btnrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btnrow a,.btnrow button{flex:1;min-width:120px;text-align:center;padding:12px 10px;border-radius:12px;font:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer}
+.btnrow .dark{background:var(--ink);color:#fff}
+.btnrow .green{background:var(--green);border-color:var(--green);color:#fff}
+.acct{margin-top:12px;background:#fff;border:1px dashed #cdbf9f;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;font-size:13px}
+.acct div{flex:1;line-height:1.5}.acct b{font-size:15px}
+.acct button{border:0;background:var(--ink);color:#fff;border-radius:10px;padding:8px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.news{display:flex;flex-direction:column;gap:10px}
+.ncard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.ncard .tag{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:var(--gold);padding:3px 8px;border-radius:6px;margin-bottom:8px}
+.ncard b{display:block;font-size:16px;line-height:1.4}
+.ncard .d{font-size:12px;color:var(--green);font-weight:700;margin:4px 0 6px}
+.ncard p{font-size:14px;line-height:1.65;color:#3d4655}
+.dsc-lead{font-size:18px;font-weight:800;line-height:1.6;white-space:pre-line;margin:6px 0 14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0;position:relative}
+.steps div{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 6px;text-align:center}
+.steps div i{display:flex;margin:0 auto 6px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:12px;font-weight:800;align-items:center;justify-content:center}
+.steps div:nth-child(3){border-color:var(--green);background:#eef6f0}.steps div:nth-child(3) i{background:var(--green)}
+.steps b{display:block;font-size:13px}.steps small{display:block;font-size:11px;color:var(--sub);white-space:pre-line;line-height:1.45;margin-top:3px}
+.dbox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:10px}
+.dbox h3{font-size:14px;font-weight:800;margin-bottom:8px}
+.dbox li{margin:0 0 6px 18px;font-size:14px;line-height:1.6}
+.apply{background:var(--ink);color:#f5efe2;border-radius:18px;padding:20px 18px;margin-top:14px}
+.apply h3{font-size:16px;margin-bottom:4px}.apply p{font-size:13px;opacity:.85;margin-bottom:12px}
+.apply .opt{display:flex;gap:6px;margin-bottom:10px}
+.apply .opt label{flex:1;text-align:center;padding:10px 4px;border-radius:12px;border:1.5px solid #4a5a6e;font-size:13px;font-weight:700;cursor:pointer}
+.apply .opt input{display:none}
+.apply .opt input:checked+span{color:#d9b36a}
+.apply .opt label:has(input:checked){border-color:#d9b36a;background:rgba(217,179,106,.12)}
+.apply input[type=text]{width:100%;padding:12px 14px;border-radius:12px;border:0;font:inherit;font-size:14px;margin-bottom:8px}
+.apply .btnrow a,.apply .btnrow button{border-color:#d9b36a}
+.apply .btnrow .gold{background:#d9b36a;color:var(--ink)}
+.apply .btnrow .line{background:transparent;color:#f5efe2}
+.cta{margin:18px 18px 0;padding:20px;border-radius:18px;background:#fff;border:1.5px solid var(--green)}
+.cta b{display:block;font-size:16px;margin-bottom:4px}.cta p{font-size:13px;color:var(--sub);margin-bottom:10px}
+.foot-motto{color:var(--green);font-weight:800}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="wrap">
+  <div id="home"></div>
+  <div id="ep" class="hide"></div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="data.js"></script>
+<script>
+const W = window.WEBTOON, $ = s => document.querySelector(s);
+const read = new Set(JSON.parse(localStorage.getItem('gp_toon_read') || '[]'));
+const saveRead = () => localStorage.setItem('gp_toon_read', JSON.stringify([...read]));
+const has = n => !!W.episodes[n];
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); };
+const esc = s => s; // 데이터는 직접 작성하므로 간단한 HTML(b, em) 허용
+
+async function share(title) {
+  const url = location.href;
+  if (navigator.share) { try { await navigator.share({ title, url }); return; } catch (e) { return; } }
+  try { await navigator.clipboard.writeText(url); toast('링크를 복사했어요. 카톡에 붙여넣기 하세요'); } catch (e) { prompt('링크를 복사하세요', url); }
+}
+
+function renderHome() {
+  const first = Object.keys(W.episodes).map(Number).sort((a, b) => a - b)[0];
+  const lastRead = [...read].map(Number).sort((a, b) => b - a)[0];
+  const nextUp = lastRead && has(lastRead + 1) ? lastRead + 1 : null;
+  $('#home').innerHTML = `
+  <div class="hero">
+    <span class="sig"><i></i><i></i><i></i></span>
+    <div class="eyebrow">GOOD PEOPLE TOON · 굿피플툰</div>
+    <h1>${W.series}</h1>
+    <p>${W.intro}</p>
+    <div class="motto">${W.motto}</div>
+    <a class="btn" href="#ep-${nextUp || first}">${nextUp ? nextUp + '화 이어 보기' : '1화부터 보기'}</a>
+    <div class="progress-note">${read.size ? `지금까지 ${read.size}편 읽었어요` : ''}</div>
+    <nav class="quick">
+      <a href="#go-worship"><span>⛪</span>예배 안내</a>
+      <a href="#go-news"><span>📢</span>교회 소식</a>
+      <a href="#go-disciple"><span>🤝</span>1:1 양육</a>
+      <a href="#go-visit"><span>📍</span>오시는 길</a>
+    </nav>
+  </div>
+  <section>
+    <h2>처음 오셨다면, 이것부터</h2>
+    <div class="desc">새가족이 가장 먼저 궁금해하는 이야기</div>
+    <div class="starter">${W.starter.map(n => has(n)
+      ? `<a href="#ep-${n}"><b>제${n}화</b><span>${W.titles[n]}</span></a>`
+      : `<a class="lock" href="javascript:void(0)"><b>제${n}화 · 준비 중</b><span>${W.titles[n]}</span></a>`).join('')}</div>
+  </section>
+  <section>
+    <h2>전체 목차</h2>
+    <div class="desc">${W.seasons.length}시즌 · ${Object.keys(W.titles).length}화 · 매주 한 편씩 공개</div>
+    ${W.seasons.map((s, i) => `
+      <details class="season" ${i === 0 ? 'open' : ''}>
+        <summary><span class="sn">시즌 ${s.no}</span><span class="st"><b>${s.name}</b><small>${s.sub} · ${s.eps[0]}~${s.eps[s.eps.length - 1]}화</small></span>
+        <span class="cnt">${s.eps.filter(has).length ? s.eps.filter(has).length + '/' + s.eps.length : '🔒'}</span></summary>
+        <div class="eplist">${s.eps.map(n => has(n)
+          ? `<a href="#ep-${n}"><span class="no">${n}화</span><span class="tt">${W.titles[n]}</span>${read.has(n) ? '<span class="done">✓ 읽음</span>' : '<span class="go">보기 →</span>'}</a>`
+          : `<div><span class="no">${n}화</span><span class="tt">${W.titles[n]}</span><span class="soon">준비 중</span></div>`).join('')}</div>
+      </details>`).join('')}
+    <div style="text-align:center;margin-top:18px"><button class="btn ghost" onclick="share('${W.series}')">🔗 웹툰 링크 공유하기</button></div>
+  </section>
+  ${infoSections()}
+  ${footer()}`;
+}
+
+const I = W.info;
+function footer() {
+  return `<footer><span class="sig"><i></i><i></i><i></i></span><br><b>착한이웃교회</b><br>담임목사 ${I.pastor}<br>교회설립 ${I.founded}<br>${I.address}<br><a href="tel:${I.phone.replace(/-/g, '')}">${I.phone}</a><br>2026 표어 : ${I.motto2026}<br><br><span class="foot-motto">${W.motto}!</span><br><small>굿피플툰 「${W.series}」</small></footer>`;
+}
+
+function infoSections() {
+  const D = I.disciple;
+  return `
+  <section class="info alt" id="worship">
+    <h2>⛪ 예배와 기도의 자리</h2>
+    <div class="desc">처음 오셔도 괜찮아요. 언제든 함께해 주세요</div>
+    <div class="wlist">${I.worship.map(w => `<div class="wrow ${w.main ? 'main' : ''}"><div class="wn"><b>${w.name}</b>${w.note ? `<small>${w.note}</small>` : ''}</div><div class="wt">${w.when.replace(' · ', '<br>')}</div></div>`).join('')}</div>
+    <div class="btnrow"><a class="dark" href="${I.after}" target="_blank">이번 주 「주일 이후」 말씀</a><a href="${I.youtube}" target="_blank">▶ 착한이웃TV</a></div>
+    <div class="acct"><div>온라인 헌금<br><b>${I.offering.bank} ${I.offering.no}</b><br><small>예금주 ${I.offering.name}</small></div><button onclick="copyText('${I.offering.no}','계좌번호를 복사했어요')">복사</button></div>
+  </section>
+  <section class="info" id="news">
+    <h2>📢 교회 소식</h2>
+    <div class="desc">${I.newsDate} 기준 · 함께 기억해 주세요</div>
+    <div class="news">${I.news.map(n => `<div class="ncard"><span class="tag">${n.tag}</span><b>${n.t}</b><div class="d">${n.d}</div><p>${n.b}</p></div>`).join('')}</div>
+    <div class="btnrow"><a href="${I.afterArchive}" target="_blank">지난 「주일 이후」 모아보기</a></div>
+  </section>
+  <section class="info alt" id="disciple">
+    <h2>🤝 1:1 제자 양육</h2>
+    <div class="dsc-lead">${D.lead}</div>
+    <div class="verse" style="margin:0 0 14px">“${D.verse.t}”<small>${D.verse.r}</small></div>
+    <div class="steps">${D.steps.map((s, i) => `<div><i>${i + 1}</i><b>${s.n}</b><small>${s.d}</small></div>`).join('')}</div>
+    <div class="dbox"><h3>이런 분께 권해요</h3><ul>${D.who.map(x => `<li>${x}</li>`).join('')}</ul></div>
+    <div class="dbox"><h3>이렇게 진행돼요</h3><ul>${D.how.map(x => `<li>${x}</li>`).join('')}</ul><p style="font-size:12px;color:var(--sub);margin-top:6px">${D.note}</p></div>
+    <div class="apply">
+      <h3>양육 신청하기</h3>
+      <p>적어 주신 내용은 카카오톡 등으로 목사님께 보내집니다.</p>
+      <div class="opt"><label><input type="radio" name="dk" value="양육을 받고 싶어요" checked><span>양육 받고 싶어요</span></label><label><input type="radio" name="dk" value="양육자로 섬기고 싶어요"><span>양육자로 섬길래요</span></label></div>
+      <input type="text" id="dname" placeholder="이름">
+      <input type="text" id="dtime" placeholder="만나기 편한 요일·시간 (예: 평일 저녁, 주일 예배 후)">
+      <div class="btnrow"><button class="gold" onclick="applyDisciple()">목사님께 신청 보내기</button><a class="line" href="tel:${I.phone.replace(/-/g, '')}">전화 문의</a></div>
+    </div>
+  </section>
+  <section class="info" id="visit">
+    <h2>📍 오시는 길</h2>
+    <div class="desc">${I.address}</div>
+    <div class="btnrow"><a class="green" href="${I.map}" target="_blank">네이버 지도로 보기</a><a href="tel:${I.phone.replace(/-/g, '')}">📞 ${I.phone}</a></div>
+    <div style="text-align:center;margin-top:18px"><button class="btn ghost" onclick="share('${W.series}')">🔗 웹툰 링크 공유하기</button></div>
+  </section>`;
+}
+
+async function copyText(t, msg) {
+  try { await navigator.clipboard.writeText(t); toast(msg); } catch (e) { prompt('복사하세요', t); }
+}
+async function applyDisciple() {
+  const kind = document.querySelector('input[name=dk]:checked').value;
+  const name = $('#dname').value.trim(), time = $('#dtime').value.trim();
+  if (!name) { toast('이름을 적어 주세요'); $('#dname').focus(); return; }
+  const text = `[1:1 제자 양육 신청]\n${kind}\n이름: ${name}\n편한 시간: ${time || '상의해서 정해요'}\n\n- 착한이웃 웹툰에서 보냄`;
+  if (navigator.share) { try { await navigator.share({ text }); return; } catch (e) { return; } }
+  copyText(text, '신청 내용을 복사했어요. 목사님께 카톡으로 붙여넣어 보내 주세요');
+}
+
+function bubble(b) {
+  const st = `left:${b.x}%;top:${b.y}%;${b.rot ? `--r:${b.rot}deg;` : ''}${b.tx ? `--tx:${b.tx}%;` : ''}`;
+  if (b.sfx) return `<span class="sfx ${b.gold ? 'gold' : ''}" style="${st}">${b.sfx}</span>`;
+  if (b.cap) return `<span class="cap" style="${st}">${b.cap}</span>`;
+  return `<span class="bub ${b.kind || ''}" style="${st}">${esc(b.t)}</span>`;
+}
+
+function renderEp(n) {
+  const e = W.episodes[n], title = W.titles[n];
+  document.title = `제${n}화 ${title} · 굿피플툰`;
+  const blocks = e.blocks.map(b => {
+    if (b.img) return `<div class="panel"><img src="${b.img}" alt="" loading="lazy">${(b.bubbles || []).map(bubble).join('')}</div>`;
+    if (b.narr) return `<div class="narr">${b.narr}</div>`;
+    if (b.talk) return `<div class="talk">${b.talk.map((t, i) => `<p class="${t.who.includes('목사') ? 'r' : ''}"><small>${t.who}</small>${t.t}</p>`).join('')}</div>`;
+    return '';
+  }).join('');
+  const nextN = n + 1;
+  $('#ep').innerHTML = `
+  <div class="top"><a href="#">← 목차</a><b>제${n}화</b><button onclick="share('제${n}화 ${title.replace(/'/g, '')}')">공유</button></div>
+  <div class="cover"><img src="${e.coverImg}" alt=""><div class="ct"><div class="ser">${W.series.split('').join(' ')}</div><div class="pill">제 ${n} 화</div><h2>${e.coverTitle}</h2></div></div>
+  ${blocks}
+  <div class="closing">${e.closing}</div>
+  ${e.verse ? `<div class="verse">“${e.verse.t}”<small>${e.verse.r}</small></div>` : ''}
+  <div class="box"><h3>📝 오늘의 정리</h3><ul>${e.summary.map(s => `<li>${s}</li>`).join('')}</ul></div>
+  ${e.real ? `<div class="box"><h3>📍 실제 착한이웃교회에서는</h3><p>${e.real}</p></div>` : ''}
+  <div class="box"><h3>✅ 이번 주에 해 보기</h3><p>${e.tryThis}</p></div>
+  <div class="box"><h3>💬 가족과 나눌 질문</h3><p>${e.ask}</p></div>
+  ${e.quiz ? `<div class="box quiz"><h3>Q 3초 퀴즈</h3>${e.quiz.map((q, qi) => `<div class="q" data-ok="${q.ok}"><p>${qi + 1}. ${q.q}</p>${q.a.map((a, ai) => `<button data-i="${ai}">${a}</button>`).join('')}</div>`).join('')}<div class="score" id="score"></div></div>` : ''}
+  ${has(nextN)
+    ? `<a class="next" href="#ep-${nextN}"><small>NEXT EPISODE</small><b>제${nextN}화 · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></a>`
+    : W.titles[nextN] ? `<div class="next soon"><small>NEXT EPISODE · 다음 주 공개</small><b>제${nextN}화 · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></div>` : ''}
+  <div class="cta"><b>착한이웃교회에 와 보실래요?</b><p>주일 오전 11시, 온 세대가 함께 드리는 신호등예배에 초대합니다.</p>
+    <div class="btnrow"><a class="green" href="#go-worship">예배 안내</a><a href="#go-disciple">1:1 양육 신청</a></div></div>
+  <div style="text-align:center;padding:16px 0 20px"><a class="btn ghost" href="#">전체 목차 보기</a></div>
+  <div class="ai-note">그림은 AI로 제작되었습니다 · 실제 인물·장소와 다를 수 있습니다</div>
+  ${footer()}`;
+  // 퀴즈
+  let right = 0, answered = 0;
+  document.querySelectorAll('.quiz .q').forEach(q => q.querySelectorAll('button').forEach(btn => btn.onclick = () => {
+    if (q.dataset.done) return; q.dataset.done = 1; answered++;
+    const ok = +q.dataset.ok, i = +btn.dataset.i;
+    q.querySelectorAll('button')[ok].classList.add('ok'); if (i !== ok) btn.classList.add('no'); else right++;
+    if (answered === e.quiz.length) $('#score').textContent = `${e.quiz.length}문제 중 ${right}개 정답! ${right === e.quiz.length ? '🎉' : ''}`;
+  }));
+  read.add(n); saveRead();
+}
+
+function route() {
+  const m = location.hash.match(/^#ep-(\d+)/);
+  if (m && has(+m[1])) { $('#home').classList.add('hide'); $('#ep').classList.remove('hide'); renderEp(+m[1]); window.scrollTo(0, 0); }
+  else {
+    $('#ep').classList.add('hide'); $('#home').classList.remove('hide'); document.title = `${W.series} · 굿피플툰`; renderHome();
+    const g = location.hash.match(/^#go-(\w+)/);
+    if (g && document.getElementById(g[1])) document.getElementById(g[1]).scrollIntoView(); else window.scrollTo(0, 0);
+  }
+}
+window.addEventListener('hashchange', route);
+window.addEventListener('scroll', () => {
+  const h = document.documentElement, p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+  $('#bar').style.width = ($('#ep').classList.contains('hide') ? 0 : p * 100) + '%';
+}, { passive: true });
+route();
+</script>
+</body>
+</html>
