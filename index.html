@@ -12,6 +12,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap">
 <style>
 :root{--bg:#efe9dc;--paper:#faf6ee;--ink:#1f2a3a;--sub:#6b6457;--gold:#c08a2e;--green:#2f7d5b;--red:#d9534f;--amber:#e9a826;--line:#e3dccb}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -69,6 +70,8 @@ footer b{color:var(--ink);font-size:14px}
 .cover.bottom .ser{color:#f0d9a0;text-shadow:none}
 .cover.bottom .pill{background:#f0d9a0;color:var(--ink)}
 .cover.bottom h2{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.cover.compact .ct{top:2.5%}.cover.compact .ser{display:none}.cover.compact .pill{margin:0 0 1.5cqw}.cover.compact h2{font-size:6.4cqw}
+.hand{position:absolute;line-height:1.05;font-family:'Nanum Pen Script',cursive;color:#151515;text-align:center;white-space:pre-line;transform:rotate(var(--r,0deg));font-weight:400;letter-spacing:.02em;z-index:1}
 .eplist .ytl{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;background:#d33;padding:5px 9px;border-radius:8px;border:0}
 .ytn{display:block;margin-top:8px;font-size:12px;font-weight:800;color:#b3261e}
 .hero h1{font-size:30px}
@@ -295,6 +298,7 @@ function bubble(b) {
   const st = `left:${b.x}%;top:${b.y}%;${b.rot ? `--r:${b.rot}deg;` : ''}${b.tx ? `--tx:${b.tx}%;` : ''}`;
   if (b.sfx) return `<span class="sfx ${b.gold ? 'gold' : ''}" style="${st}">${b.sfx}</span>`;
   if (b.cap) return `<span class="cap" style="${st}">${b.cap}</span>`;
+  if (b.hand) return `<span class="hand" style="${st}width:${b.w}%;font-size:${b.fs}cqw">${b.hand}</span>`;
   return `<span class="bub ${b.kind || ''}" style="${st}">${esc(b.t)}</span>`;
 }
 
@@ -310,7 +314,7 @@ function renderEp(n) {
   const nextN = n + 1;
   $('#ep').innerHTML = `
   <div class="top"><a href="#">← 목차</a><b>${epLabel(n)}</b><button onclick="share('${epLabel(n)} ${title.replace(/['‘’]/g, '')}')">공유</button></div>
-  <div class="cover ${e.coverPos === 'bottom' ? 'bottom' : ''}"><img src="${e.coverImg}" alt=""><div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
+  <div class="cover ${e.coverPos || ''}"><img src="${e.coverImg}" alt="">${e.coverHand ? bubble({ hand: e.coverHand.t, x: e.coverHand.x, y: e.coverHand.y, w: e.coverHand.w, fs: e.coverHand.fs, rot: e.coverHand.rot }) : ''}<div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
   ${blocks}
   <div class="closing">${e.closing}</div>
   ${e.verse ? `<div class="verse">“${e.verse.t}”<small>${e.verse.r}</small></div>` : ''}
