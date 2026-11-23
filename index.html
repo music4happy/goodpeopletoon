@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>굿피플툰 · 착한이웃다움</title>
+<title>굿피플툰 · 착한이웃교회 이야기</title>
 <meta name="description" content="착한이웃교회 이야기를 쉽고 편안하게 풀어낸 웹툰">
-<meta property="og:title" content="굿피플툰 · 착한이웃다움">
+<meta property="og:title" content="굿피플툰 · 착한이웃교회 이야기">
 <meta property="og:description" content="이웃에게 할 수 있는 가장 착한 일은, 예수님을 전하는 것입니다">
-<meta property="og:image" content="https://music4happy.github.io/goodpeopletoon/ep01_cover.jpg">
+<meta property="og:image" content="https://music4happy.github.io/goodpeopletoon/pr_cover.jpg">
 <meta property="og:url" content="https://music4happy.github.io/goodpeopletoon/">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -46,7 +46,7 @@ section .desc{color:var(--sub);font-size:13px;margin-bottom:16px}
 .season .st{flex:1}.season .st b{display:block;font-size:15px}.season .st small{color:var(--sub);font-size:12px}
 .season .cnt{font-size:12px;color:var(--sub)}
 .eplist a,.eplist div{display:flex;align-items:center;gap:10px;padding:13px 18px;border-top:1px solid #f1ece0;font-size:14px}
-.eplist .no{flex:0 0 38px;font-weight:800;color:var(--gold);font-size:13px}
+.eplist .no{flex:0 0 54px;font-weight:800;color:var(--gold);font-size:13px;white-space:nowrap}
 .eplist .tt{flex:1;line-height:1.4}
 .eplist .go{font-size:12px;font-weight:700;color:var(--ink)}
 .eplist .soon{font-size:11px;color:#a59c8a}
@@ -64,6 +64,14 @@ footer b{color:var(--ink);font-size:14px}
 .cover .ser{font-size:3.4cqw;letter-spacing:.35em;color:#8a5a12;font-weight:800;text-shadow:0 1px 8px rgba(255,255,255,.9)}
 .cover .pill{display:inline-block;margin:2.6cqw 0;background:var(--ink);color:#fff;font-weight:800;font-size:3.6cqw;padding:1.4cqw 4cqw;border-radius:999px}
 .cover h2{font-size:7.6cqw;line-height:1.25;font-weight:900;white-space:pre-line;color:var(--ink);text-shadow:0 2px 14px rgba(255,255,255,.95),0 0 3px #fff}
+.cover.bottom::after{content:'';position:absolute;left:0;right:0;bottom:0;height:48%;background:linear-gradient(transparent,rgba(15,20,30,.85))}
+.cover.bottom .ct{top:auto;bottom:5%;z-index:1}
+.cover.bottom .ser{color:#f0d9a0;text-shadow:none}
+.cover.bottom .pill{background:#f0d9a0;color:var(--ink)}
+.cover.bottom h2{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.eplist .ytl{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;background:#d33;padding:5px 9px;border-radius:8px;border:0}
+.ytn{display:block;margin-top:8px;font-size:12px;font-weight:800;color:#b3261e}
+.hero h1{font-size:30px}
 .panel{position:relative;container-type:inline-size;line-height:0}
 .panel img{width:100%;display:block}
 .bub{position:absolute;line-height:1.35;background:#fff;border:2.5px solid var(--ink);border-radius:5cqw;padding:2.2cqw 3.2cqw;font-size:3.5cqw;font-weight:600;white-space:pre-line;max-width:50%;box-shadow:0 1.2cqw 0 rgba(31,42,58,.12);transform:rotate(var(--r,0deg))}
@@ -166,8 +174,8 @@ footer b{color:var(--ink);font-size:14px}
 <script src="data.js"></script>
 <script>
 const W = window.WEBTOON, $ = s => document.querySelector(s);
-const read = new Set(JSON.parse(localStorage.getItem('gp_toon_read') || '[]'));
-const saveRead = () => localStorage.setItem('gp_toon_read', JSON.stringify([...read]));
+const read = new Set(JSON.parse(localStorage.getItem('gp_toon_read_v2') || '[]'));
+const saveRead = () => localStorage.setItem('gp_toon_read_v2', JSON.stringify([...read]));
 const has = n => !!W.episodes[n];
 const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); };
 const esc = s => s; // 데이터는 직접 작성하므로 간단한 HTML(b, em) 허용
@@ -178,18 +186,22 @@ async function share(title) {
   try { await navigator.clipboard.writeText(url); toast('링크를 복사했어요. 카톡에 붙여넣기 하세요'); } catch (e) { prompt('링크를 복사하세요', url); }
 }
 
+const VIS = W.seasons.flatMap(s => s.eps);
+const epLabel = n => n === 0 ? '프롤로그' : `제${n}화`;
+const ytUrl = n => W.yt[n] ? `https://www.youtube.com/watch?v=${W.yt[n]}` : W.info.youtube;
+
 function renderHome() {
   const first = Object.keys(W.episodes).map(Number).sort((a, b) => a - b)[0];
   const lastRead = [...read].map(Number).sort((a, b) => b - a)[0];
-  const nextUp = lastRead && has(lastRead + 1) ? lastRead + 1 : null;
+  const nextUp = lastRead !== undefined && has(lastRead + 1) ? lastRead + 1 : null;
   $('#home').innerHTML = `
   <div class="hero">
     <span class="sig"><i></i><i></i><i></i></span>
-    <div class="eyebrow">GOOD PEOPLE TOON · 굿피플툰</div>
+    <div class="eyebrow">GOOD PEOPLE TOON</div>
     <h1>${W.series}</h1>
+    <div class="motto">착한이웃교회 이야기 · ${W.motto}</div>
     <p>${W.intro}</p>
-    <div class="motto">${W.motto}</div>
-    <a class="btn" href="#ep-${nextUp || first}">${nextUp ? nextUp + '화 이어 보기' : '1화부터 보기'}</a>
+    <a class="btn" href="#ep-${nextUp ?? first}">${nextUp ? epLabel(nextUp) + ' 이어 보기' : epLabel(first) + '부터 보기'}</a>
     <div class="progress-note">${read.size ? `지금까지 ${read.size}편 읽었어요` : ''}</div>
     <nav class="quick">
       <a href="#go-worship"><span>⛪</span>예배 안내</a>
@@ -202,19 +214,19 @@ function renderHome() {
     <h2>처음 오셨다면, 이것부터</h2>
     <div class="desc">새가족이 가장 먼저 궁금해하는 이야기</div>
     <div class="starter">${W.starter.map(n => has(n)
-      ? `<a href="#ep-${n}"><b>제${n}화</b><span>${W.titles[n]}</span></a>`
-      : `<a class="lock" href="javascript:void(0)"><b>제${n}화 · 준비 중</b><span>${W.titles[n]}</span></a>`).join('')}</div>
+      ? `<a href="#ep-${n}"><b>${epLabel(n)}</b><span>${W.titles[n]}</span></a>`
+      : `<a class="lock" href="${ytUrl(n)}" target="_blank"><b>${epLabel(n)} · 원작 쇼츠 ▶</b><span>${W.titles[n]}</span></a>`).join('')}</div>
   </section>
   <section>
     <h2>전체 목차</h2>
-    <div class="desc">${W.seasons.length}시즌 · ${Object.keys(W.titles).length}화 · 매주 한 편씩 공개</div>
+    <div class="desc">시즌 1 · 프롤로그 + ${VIS.filter(n => n > 0).length}화 · 매주 한 편씩 공개</div>
     ${W.seasons.map((s, i) => `
       <details class="season" ${i === 0 ? 'open' : ''}>
         <summary><span class="sn">시즌 ${s.no}</span><span class="st"><b>${s.name}</b><small>${s.sub} · ${s.eps[0]}~${s.eps[s.eps.length - 1]}화</small></span>
         <span class="cnt">${s.eps.filter(has).length ? s.eps.filter(has).length + '/' + s.eps.length : '🔒'}</span></summary>
         <div class="eplist">${s.eps.map(n => has(n)
-          ? `<a href="#ep-${n}"><span class="no">${n}화</span><span class="tt">${W.titles[n]}</span>${read.has(n) ? '<span class="done">✓ 읽음</span>' : '<span class="go">보기 →</span>'}</a>`
-          : `<div><span class="no">${n}화</span><span class="tt">${W.titles[n]}</span><span class="soon">준비 중</span></div>`).join('')}</div>
+          ? `<a href="#ep-${n}"><span class="no">${n === 0 ? '프롤로그' : n + '화'}</span><span class="tt">${W.titles[n]}</span>${read.has(n) ? '<span class="done">✓ 읽음</span>' : '<span class="go">보기 →</span>'}</a>`
+          : `<div><span class="no">${n}화</span><span class="tt">${W.titles[n]}<br><span class="soon">웹툰 준비 중</span></span>${W.yt[n] ? `<a class="ytl" href="${ytUrl(n)}" target="_blank">쇼츠 ▶</a>` : ''}</div>`).join('')}</div>
       </details>`).join('')}
     <div style="text-align:center;margin-top:18px"><button class="btn ghost" onclick="share('${W.series}')">🔗 웹툰 링크 공유하기</button></div>
   </section>
@@ -224,7 +236,7 @@ function renderHome() {
 
 const I = W.info;
 function footer() {
-  return `<footer><span class="sig"><i></i><i></i><i></i></span><br><b>착한이웃교회</b><br>담임목사 ${I.pastor}<br>교회설립 ${I.founded}<br>${I.address}<br><a href="tel:${I.phone.replace(/-/g, '')}">${I.phone}</a><br>2026 표어 : ${I.motto2026}<br><br><span class="foot-motto">${W.motto}!</span><br><small>굿피플툰 「${W.series}」</small></footer>`;
+  return `<footer><span class="sig"><i></i><i></i><i></i></span><br><b>착한이웃교회</b><br>담임목사 ${I.pastor}<br>교회설립 ${I.founded}<br>${I.address}<br><a href="tel:${I.phone.replace(/-/g, '')}">${I.phone}</a><br>2026 표어 : ${I.motto2026}<br><br><span class="foot-motto">${W.motto}</span><br><small>${W.brand} · 착한이웃교회 이야기</small></footer>`;
 }
 
 function infoSections() {
@@ -288,7 +300,7 @@ function bubble(b) {
 
 function renderEp(n) {
   const e = W.episodes[n], title = W.titles[n];
-  document.title = `제${n}화 ${title} · 굿피플툰`;
+  document.title = `${epLabel(n)} ${title} · 굿피플툰`;
   const blocks = e.blocks.map(b => {
     if (b.img) return `<div class="panel"><img src="${b.img}" alt="" loading="lazy">${(b.bubbles || []).map(bubble).join('')}</div>`;
     if (b.narr) return `<div class="narr">${b.narr}</div>`;
@@ -297,19 +309,19 @@ function renderEp(n) {
   }).join('');
   const nextN = n + 1;
   $('#ep').innerHTML = `
-  <div class="top"><a href="#">← 목차</a><b>제${n}화</b><button onclick="share('제${n}화 ${title.replace(/'/g, '')}')">공유</button></div>
-  <div class="cover"><img src="${e.coverImg}" alt=""><div class="ct"><div class="ser">${W.series.split('').join(' ')}</div><div class="pill">제 ${n} 화</div><h2>${e.coverTitle}</h2></div></div>
+  <div class="top"><a href="#">← 목차</a><b>${epLabel(n)}</b><button onclick="share('${epLabel(n)} ${title.replace(/['‘’]/g, '')}')">공유</button></div>
+  <div class="cover ${e.coverPos === 'bottom' ? 'bottom' : ''}"><img src="${e.coverImg}" alt=""><div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
   ${blocks}
   <div class="closing">${e.closing}</div>
   ${e.verse ? `<div class="verse">“${e.verse.t}”<small>${e.verse.r}</small></div>` : ''}
   <div class="box"><h3>📝 오늘의 정리</h3><ul>${e.summary.map(s => `<li>${s}</li>`).join('')}</ul></div>
-  ${e.real ? `<div class="box"><h3>📍 실제 착한이웃교회에서는</h3><p>${e.real}</p></div>` : ''}
+  ${e.real ? `<div class="box"><h3>📍 실제 착한이웃교회에서는</h3><p>${e.real}</p>${W.yt[n] ? `<div class="btnrow"><a class="dark" href="${ytUrl(n)}" target="_blank">▶ 원작 영상 보기 (착한이웃TV)</a></div>` : ''}</div>` : ''}
   <div class="box"><h3>✅ 이번 주에 해 보기</h3><p>${e.tryThis}</p></div>
   <div class="box"><h3>💬 가족과 나눌 질문</h3><p>${e.ask}</p></div>
   ${e.quiz ? `<div class="box quiz"><h3>Q 3초 퀴즈</h3>${e.quiz.map((q, qi) => `<div class="q" data-ok="${q.ok}"><p>${qi + 1}. ${q.q}</p>${q.a.map((a, ai) => `<button data-i="${ai}">${a}</button>`).join('')}</div>`).join('')}<div class="score" id="score"></div></div>` : ''}
   ${has(nextN)
-    ? `<a class="next" href="#ep-${nextN}"><small>NEXT EPISODE</small><b>제${nextN}화 · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></a>`
-    : W.titles[nextN] ? `<div class="next soon"><small>NEXT EPISODE · 다음 주 공개</small><b>제${nextN}화 · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></div>` : ''}
+    ? `<a class="next" href="#ep-${nextN}"><small>NEXT EPISODE</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></a>`
+    : VIS.includes(nextN) ? `<a class="next soon" href="${ytUrl(nextN)}" target="_blank"><small>NEXT EPISODE · 웹툰 준비 중</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span><span class="ytn">원작 쇼츠 먼저 보기 ▶</span></a>` : ''}
   <div class="cta"><b>착한이웃교회에 와 보실래요?</b><p>주일 오전 11시, 온 세대가 함께 드리는 신호등예배에 초대합니다.</p>
     <div class="btnrow"><a class="green" href="#go-worship">예배 안내</a><a href="#go-disciple">1:1 양육 신청</a></div></div>
   <div style="text-align:center;padding:16px 0 20px"><a class="btn ghost" href="#">전체 목차 보기</a></div>
