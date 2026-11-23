@@ -71,6 +71,7 @@ footer b{color:var(--ink);font-size:14px}
 .cover.bottom .pill{background:#f0d9a0;color:var(--ink)}
 .cover.bottom h2{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
 .cover.compact .ct{top:2.5%}.cover.compact .ser{display:none}.cover.compact .pill{margin:0 0 1.5cqw}.cover.compact h2{font-size:6.4cqw}
+.hand.print{font-family:'Courier New',Pretendard,monospace;font-weight:800;letter-spacing:.05em;color:#1d2a44}
 .hand{position:absolute;line-height:1.05;font-family:'Nanum Pen Script',cursive;color:#151515;text-align:center;white-space:pre-line;transform:rotate(var(--r,0deg));font-weight:400;letter-spacing:.02em;z-index:1}
 .eplist .ytl{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;background:#d33;padding:5px 9px;border-radius:8px;border:0}
 .ytn{display:block;margin-top:8px;font-size:12px;font-weight:800;color:#b3261e}
@@ -298,7 +299,7 @@ function bubble(b) {
   const st = `left:${b.x}%;top:${b.y}%;${b.rot ? `--r:${b.rot}deg;` : ''}${b.tx ? `--tx:${b.tx}%;` : ''}`;
   if (b.sfx) return `<span class="sfx ${b.gold ? 'gold' : ''}" style="${st}">${b.sfx}</span>`;
   if (b.cap) return `<span class="cap" style="${st}">${b.cap}</span>`;
-  if (b.hand) return `<span class="hand" style="${st}width:${b.w}%;font-size:${b.fs}cqw">${b.hand}</span>`;
+  if (b.hand) return `<span class="hand ${b.font || ''}" style="${st}width:${b.w}%;font-size:${b.fs}cqw">${b.hand}</span>`;
   return `<span class="bub ${b.kind || ''}" style="${st}">${esc(b.t)}</span>`;
 }
 
