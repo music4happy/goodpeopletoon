@@ -175,7 +175,7 @@ footer b{color:var(--ink);font-size:14px}
   <div id="ep" class="hide"></div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="data.js?v=20261124c"></script>
+<script src="data.js?v=20261124d"></script>
 <script>
 const W = window.WEBTOON, $ = s => document.querySelector(s);
 const read = new Set(JSON.parse(localStorage.getItem('gp_toon_read_v2') || '[]'));
@@ -191,7 +191,8 @@ async function share(title) {
 }
 
 const VIS = W.seasons.flatMap(s => s.eps);
-const epLabel = n => n === 0 ? '프롤로그' : `제${n}화`;
+const epLabel = n => n === 0 ? '프롤로그' : n >= 100 ? `Q${n - 100}` : `제${n}화`;
+const noLabel = n => n === 0 ? '프롤로그' : n >= 100 ? `Q${n - 100}` : `${n}화`;
 const ytUrl = n => W.yt[n] ? `https://www.youtube.com/watch?v=${W.yt[n]}` : W.info.youtube;
 
 function renderHome() {
@@ -205,7 +206,8 @@ function renderHome() {
     <h1>${W.series}</h1>
     <div class="motto">착한이웃교회 이야기 · ${W.motto}</div>
     <p>${W.intro}</p>
-    <a class="btn" href="#ep-${nextUp ?? first}">${nextUp ? epLabel(nextUp) + ' 이어 보기' : epLabel(first) + '부터 보기'}</a>
+    <a class="btn" href="#ep-${nextUp ?? first}">${nextUp ? epLabel(nextUp) + ' 이어 보기' : 'B급목사 이야기 보기'}</a>
+    <div style="margin-top:10px"><a class="btn ghost" href="#ep-101">🙋 교회가 처음이신가요?</a></div>
     <div class="progress-note">${read.size ? `지금까지 ${read.size}편 읽었어요` : ''}</div>
     <nav class="quick">
       <a href="#go-worship"><span>⛪</span>예배 안내</a>
@@ -215,22 +217,22 @@ function renderHome() {
     </nav>
   </div>
   <section>
-    <h2>처음 오셨다면, 이것부터</h2>
-    <div class="desc">새가족이 가장 먼저 궁금해하는 이야기</div>
+    <h2>🙋 교회가 처음이신가요?</h2>
+    <div class="desc">교회 다니면서 가장 궁금한 것들, 하나씩 웹툰으로 풀어 드려요</div>
     <div class="starter">${W.starter.map(n => has(n)
       ? `<a href="#ep-${n}"><b>${epLabel(n)}</b><span>${W.titles[n]}</span></a>`
-      : `<a class="lock" href="${ytUrl(n)}" target="_blank"><b>${epLabel(n)} · 원작 쇼츠 ▶</b><span>${W.titles[n]}</span></a>`).join('')}</div>
+      : W.yt[n] ? `<a class="lock" href="${ytUrl(n)}" target="_blank"><b>${epLabel(n)} · 원작 쇼츠 ▶</b><span>${W.titles[n]}</span></a>` : `<a class="lock" href="javascript:void(0)"><b>${epLabel(n)} · 준비 중</b><span>${W.titles[n]}</span></a>`).join('')}</div>
   </section>
   <section>
     <h2>전체 목차</h2>
-    <div class="desc">시즌 1 · 프롤로그 + ${VIS.filter(n => n > 0).length}화 · 매주 한 편씩 공개</div>
+    <div class="desc">${W.seasons.map(s => `${s.name} ${s.eps.length}편`).join(' · ')} · 차례로 공개</div>
     ${W.seasons.map((s, i) => `
       <details class="season" ${i === 0 ? 'open' : ''}>
-        <summary><span class="sn">시즌 ${s.no}</span><span class="st"><b>${s.name}</b><small>${s.sub} · ${s.eps[0]}~${s.eps[s.eps.length - 1]}화</small></span>
+        <summary><span class="sn">${s.label || '시즌 ' + s.no}</span><span class="st"><b>${s.name}</b><small>${s.sub} · ${s.eps.length}편</small></span>
         <span class="cnt">${s.eps.filter(has).length ? s.eps.filter(has).length + '/' + s.eps.length : '🔒'}</span></summary>
         <div class="eplist">${s.eps.map(n => has(n)
-          ? `<a href="#ep-${n}"><span class="no">${n === 0 ? '프롤로그' : n + '화'}</span><span class="tt">${W.titles[n]}</span>${read.has(n) ? '<span class="done">✓ 읽음</span>' : '<span class="go">보기 →</span>'}</a>`
-          : `<div><span class="no">${n}화</span><span class="tt">${W.titles[n]}<br><span class="soon">웹툰 준비 중</span></span>${W.yt[n] ? `<a class="ytl" href="${ytUrl(n)}" target="_blank">쇼츠 ▶</a>` : ''}</div>`).join('')}</div>
+          ? `<a href="#ep-${n}"><span class="no">${noLabel(n)}</span><span class="tt">${W.titles[n]}</span>${read.has(n) ? '<span class="done">✓ 읽음</span>' : '<span class="go">보기 →</span>'}</a>`
+          : `<div><span class="no">${noLabel(n)}</span><span class="tt">${W.titles[n]}<br><span class="soon">웹툰 준비 중</span></span>${W.yt[n] ? `<a class="ytl" href="${ytUrl(n)}" target="_blank">쇼츠 ▶</a>` : ''}</div>`).join('')}</div>
       </details>`).join('')}
     <div style="text-align:center;margin-top:18px"><button class="btn ghost" onclick="share('${W.series}')">🔗 웹툰 링크 공유하기</button></div>
   </section>
@@ -315,7 +317,7 @@ function renderEp(n) {
   const nextN = n + 1;
   $('#ep').innerHTML = `
   <div class="top"><a href="#">← 목차</a><b>${epLabel(n)}</b><button onclick="share('${epLabel(n)} ${title.replace(/['‘’]/g, '')}')">공유</button></div>
-  <div class="cover ${e.coverPos || ''}"><img src="${e.coverImg}" alt="">${e.coverHand ? bubble({ hand: e.coverHand.t, x: e.coverHand.x, y: e.coverHand.y, w: e.coverHand.w, fs: e.coverHand.fs, rot: e.coverHand.rot }) : ''}<div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
+  <div class="cover ${e.coverPos || ''}"><img src="${e.coverImg}" alt="">${e.coverHand ? bubble({ hand: e.coverHand.t, x: e.coverHand.x, y: e.coverHand.y, w: e.coverHand.w, fs: e.coverHand.fs, rot: e.coverHand.rot }) : ''}<div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : n >= 100 ? `교회가 처음이신가요? · Q${n - 100}` : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
   ${blocks}
   <div class="closing">${e.closing}</div>
   ${e.verse ? `<div class="verse">“${e.verse.t}”<small>${e.verse.r}</small></div>` : ''}
@@ -326,7 +328,7 @@ function renderEp(n) {
   ${e.quiz ? `<div class="box quiz"><h3>Q 3초 퀴즈</h3>${e.quiz.map((q, qi) => `<div class="q" data-ok="${q.ok}"><p>${qi + 1}. ${q.q}</p>${q.a.map((a, ai) => `<button data-i="${ai}">${a}</button>`).join('')}</div>`).join('')}<div class="score" id="score"></div></div>` : ''}
   ${has(nextN)
     ? `<a class="next" href="#ep-${nextN}"><small>NEXT EPISODE</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></a>`
-    : VIS.includes(nextN) ? `<a class="next soon" href="${ytUrl(nextN)}" target="_blank"><small>NEXT EPISODE · 웹툰 준비 중</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span><span class="ytn">원작 쇼츠 먼저 보기 ▶</span></a>` : ''}
+    : VIS.includes(nextN) ? (W.yt[nextN] ? `<a class="next soon" href="${ytUrl(nextN)}" target="_blank"><small>NEXT EPISODE · 웹툰 준비 중</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span><span class="ytn">원작 쇼츠 먼저 보기 ▶</span></a>` : `<div class="next soon"><small>NEXT · 준비 중</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></div>`) : ''}
   <div class="cta"><b>착한이웃교회에 와 보실래요?</b><p>주일 오전 11시, 온 세대가 함께 드리는 신호등예배에 초대합니다.</p>
     <div class="btnrow"><a class="green" href="#go-worship">예배 안내</a><a href="#go-disciple">1:1 양육 신청</a></div></div>
   <div style="text-align:center;padding:16px 0 20px"><a class="btn ghost" href="#">전체 목차 보기</a></div>
