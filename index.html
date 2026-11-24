@@ -165,6 +165,14 @@ footer b{color:var(--ink);font-size:14px}
 .apply .btnrow .line{background:transparent;color:#f5efe2}
 .cta{margin:18px 18px 0;padding:20px;border-radius:18px;background:#fff;border:1.5px solid var(--green)}
 .cta b{display:block;font-size:16px;margin-bottom:4px}.cta p{font-size:13px;color:var(--sub);margin-bottom:10px}
+.tpick{padding:6px 20px 26px}.tlabel{font-size:12px;letter-spacing:.12em;color:var(--gold);font-weight:800;margin:0 0 12px;text-align:center}
+.tcards{display:grid;grid-template-columns:1fr;gap:12px}
+.tcard{display:block;color:#fff;border-radius:22px;padding:22px 20px;position:relative;overflow:hidden;min-height:132px;box-shadow:0 10px 26px rgba(0,0,0,.12);transition:transform .2s}
+.tcard:active,.tcard:hover{transform:translateY(-3px)}
+.tcard .em{font-size:34px;line-height:1}
+.tcard h3{font-size:21px;font-weight:900;margin:8px 0 4px}
+.tcard p{font-size:13.5px;opacity:.95;line-height:1.55}
+.tcard .go{position:absolute;right:16px;bottom:14px;font-weight:800;font-size:12px;background:rgba(255,255,255,.24);border-radius:999px;padding:4px 12px}
 .foot-motto{color:var(--green);font-weight:800}
 </style>
 </head>
@@ -175,7 +183,7 @@ footer b{color:var(--ink);font-size:14px}
   <div id="ep" class="hide"></div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="data.js?v=20261124d"></script>
+<script src="data.js?v=20261124e"></script>
 <script>
 const W = window.WEBTOON, $ = s => document.querySelector(s);
 const read = new Set(JSON.parse(localStorage.getItem('gp_toon_read_v2') || '[]'));
@@ -206,18 +214,18 @@ function renderHome() {
     <h1>${W.series}</h1>
     <div class="motto">착한이웃교회 이야기 · ${W.motto}</div>
     <p>${W.intro}</p>
-    <a class="btn" href="#ep-${nextUp ?? first}">${nextUp ? epLabel(nextUp) + ' 이어 보기' : 'B급목사 이야기 보기'}</a>
-    <div style="margin-top:10px"><a class="btn ghost" href="#ep-101">🙋 교회가 처음이신가요?</a></div>
     <div class="progress-note">${read.size ? `지금까지 ${read.size}편 읽었어요` : ''}</div>
-    <nav class="quick">
-      <a href="#go-worship"><span>⛪</span>예배 안내</a>
-      <a href="#go-news"><span>📢</span>교회 소식</a>
-      <a href="#go-disciple"><span>🤝</span>1:1 양육</a>
-      <a href="#go-visit"><span>📍</span>오시는 길</a>
-    </nav>
   </div>
+  <section class="tpick">
+    <div class="tlabel">보고 싶은 이야기를 눌러 주세요</div>
+    <div class="tcards">
+      <a class="tcard" href="#ep-${nextUp !== null && nextUp < 100 ? nextUp : 0}" style="background:#E07A3F"><span class="em">📖</span><h3>B급목사 이야기</h3><p>지하에서 시작된 교회<br>착한이웃교회의 진짜 이야기</p><span class="go">들어가기 ›</span></a>
+      <a class="tcard" href="#ep-101" style="background:#2F9E7A"><span class="em">🙋</span><h3>아직은 교회가 낯설어</h3><p>처음 오면? 예배는? 헌금은?<br>교회가 궁금한 분들께</p><span class="go">들어가기 ›</span></a>
+      <a class="tcard" href="#go-worship" style="background:#3E7CC9"><span class="em">⛪</span><h3>예배 · 오시는 길</h3><p>주일 오전 11시 신호등예배<br>백석3로 131, 6층</p><span class="go">들어가기 ›</span></a>
+    </div>
+  </section>
   <section>
-    <h2>🙋 교회가 처음이신가요?</h2>
+    <h2>🙋 아직은 교회가 낯설어</h2>
     <div class="desc">교회 다니면서 가장 궁금한 것들, 하나씩 웹툰으로 풀어 드려요</div>
     <div class="starter">${W.starter.map(n => has(n)
       ? `<a href="#ep-${n}"><b>${epLabel(n)}</b><span>${W.titles[n]}</span></a>`
@@ -261,22 +269,6 @@ function infoSections() {
     <div class="news">${I.news.map(n => `<div class="ncard"><span class="tag">${n.tag}</span><b>${n.t}</b><div class="d">${n.d}</div><p>${n.b}</p></div>`).join('')}</div>
     <div class="btnrow"><a href="${I.afterArchive}" target="_blank">지난 「주일 이후」 모아보기</a></div>
   </section>
-  <section class="info alt" id="disciple">
-    <h2>🤝 1:1 제자 양육</h2>
-    <div class="dsc-lead">${D.lead}</div>
-    <div class="verse" style="margin:0 0 14px">“${D.verse.t}”<small>${D.verse.r}</small></div>
-    <div class="steps">${D.steps.map((s, i) => `<div><i>${i + 1}</i><b>${s.n}</b><small>${s.d}</small></div>`).join('')}</div>
-    <div class="dbox"><h3>이런 분께 권해요</h3><ul>${D.who.map(x => `<li>${x}</li>`).join('')}</ul></div>
-    <div class="dbox"><h3>이렇게 진행돼요</h3><ul>${D.how.map(x => `<li>${x}</li>`).join('')}</ul><p style="font-size:12px;color:var(--sub);margin-top:6px">${D.note}</p></div>
-    <div class="apply">
-      <h3>양육 신청하기</h3>
-      <p>적어 주신 내용은 카카오톡 등으로 목사님께 보내집니다.</p>
-      <div class="opt"><label><input type="radio" name="dk" value="양육을 받고 싶어요" checked><span>양육 받고 싶어요</span></label><label><input type="radio" name="dk" value="양육자로 섬기고 싶어요"><span>양육자로 섬길래요</span></label></div>
-      <input type="text" id="dname" placeholder="이름">
-      <input type="text" id="dtime" placeholder="만나기 편한 요일·시간 (예: 평일 저녁, 주일 예배 후)">
-      <div class="btnrow"><button class="gold" onclick="applyDisciple()">목사님께 신청 보내기</button><a class="line" href="tel:${I.phone.replace(/-/g, '')}">전화 문의</a></div>
-    </div>
-  </section>
   <section class="info" id="visit">
     <h2>📍 오시는 길</h2>
     <div class="desc">${I.address}</div>
@@ -317,7 +309,7 @@ function renderEp(n) {
   const nextN = n + 1;
   $('#ep').innerHTML = `
   <div class="top"><a href="#">← 목차</a><b>${epLabel(n)}</b><button onclick="share('${epLabel(n)} ${title.replace(/['‘’]/g, '')}')">공유</button></div>
-  <div class="cover ${e.coverPos || ''}"><img src="${e.coverImg}" alt="">${e.coverHand ? bubble({ hand: e.coverHand.t, x: e.coverHand.x, y: e.coverHand.y, w: e.coverHand.w, fs: e.coverHand.fs, rot: e.coverHand.rot }) : ''}<div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : n >= 100 ? `교회가 처음이신가요? · Q${n - 100}` : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
+  <div class="cover ${e.coverPos || ''}"><img src="${e.coverImg}" alt="">${e.coverHand ? bubble({ hand: e.coverHand.t, x: e.coverHand.x, y: e.coverHand.y, w: e.coverHand.w, fs: e.coverHand.fs, rot: e.coverHand.rot }) : ''}<div class="ct"><div class="ser">${W.coverSer}</div><div class="pill">${n === 0 ? 'PROLOGUE' : n >= 100 ? `아직은 교회가 낯설어 · Q${n - 100}` : `제 ${n} 화`}</div><h2>${e.coverTitle}</h2></div></div>
   ${blocks}
   <div class="closing">${e.closing}</div>
   ${e.verse ? `<div class="verse">“${e.verse.t}”<small>${e.verse.r}</small></div>` : ''}
@@ -330,7 +322,7 @@ function renderEp(n) {
     ? `<a class="next" href="#ep-${nextN}"><small>NEXT EPISODE</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></a>`
     : VIS.includes(nextN) ? (W.yt[nextN] ? `<a class="next soon" href="${ytUrl(nextN)}" target="_blank"><small>NEXT EPISODE · 웹툰 준비 중</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span><span class="ytn">원작 쇼츠 먼저 보기 ▶</span></a>` : `<div class="next soon"><small>NEXT · 준비 중</small><b>${epLabel(nextN)} · ${W.titles[nextN]}</b><span>${e.hook || ''}</span></div>`) : ''}
   <div class="cta"><b>착한이웃교회에 와 보실래요?</b><p>주일 오전 11시, 온 세대가 함께 드리는 신호등예배에 초대합니다.</p>
-    <div class="btnrow"><a class="green" href="#go-worship">예배 안내</a><a href="#go-disciple">1:1 양육 신청</a></div></div>
+    <div class="btnrow"><a class="green" href="#go-worship">예배 안내</a><a href="https://music4happy.github.io/" target="_blank">교회 홈페이지</a></div></div>
   <div style="text-align:center;padding:16px 0 20px"><a class="btn ghost" href="#">전체 목차 보기</a></div>
   <div class="ai-note">그림은 AI로 제작되었습니다 · 실제 인물·장소와 다를 수 있습니다</div>
   ${footer()}`;
